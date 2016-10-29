@@ -2,7 +2,7 @@ GetTextureID(modelid, txd[], name[]) {
 	new query_str[200], DBResult:db_result, textureid;
 
 	format(query_str, sizeof query_str,
-		"SELECT `id` FROM `textures` WHERE `modelid` = '%i' AND `txd` = '%q' AND `name` = '%q' LIMIT 1", modelid, txd, name
+		"SELECT `rowid` FROM `textures` WHERE `modelid` = '%i' AND `txd` = '%q' AND `name` = '%q' LIMIT 1", modelid, txd, name
 	);
 
 	db_result = db_query(g_DBHandle, query_str);
@@ -21,7 +21,7 @@ GetTextureID(modelid, txd[], name[]) {
 GetTextureData(textureid, &modelid, txd[], txd_size, name[], name_size) {
 	new query_str[100], DBResult:db_result, is_found;
 
-	format(query_str, sizeof query_str, "SELECT `modelid`, `txd`, `name` FROM `textures` WHERE `id` = '%i' LIMIT 1", textureid);
+	format(query_str, sizeof query_str, "SELECT `modelid`, `txd`, `name` FROM `textures` WHERE `rowid` = '%i' LIMIT 1", textureid);
 
 	db_result = db_query(g_DBHandle, query_str);
 
@@ -42,9 +42,9 @@ FindTextures(result[], result_size, search[], offset) {
 	new query_str[500], DBResult:db_result, textures_found;
 
 	if(isempty(search)) {
-		format(query_str, sizeof query_str, "SELECT `id` FROM `textures` LIMIT %i OFFSET %i", result_size, offset);
+		format(query_str, sizeof query_str, "SELECT `rowid` FROM `textures` LIMIT %i OFFSET %i", result_size, offset);
 	} else {
-		format(query_str, sizeof query_str, "SELECT `id` FROM `textures` WHERE `modelid` LIKE '%%%q%%' OR `txd` LIKE '%%%q%%' OR `name` LIKE '%%%q%%' LIMIT %i OFFSET %i", search, search, search, result_size, offset);
+		format(query_str, sizeof query_str, "SELECT `rowid` FROM `textures` WHERE `rowid` LIKE '%%%q%%' OR `modelid` LIKE '%%%q%%' OR `txd` LIKE '%%%q%%' OR `name` LIKE '%%%q%%' LIMIT %i OFFSET %i", search, search, search, search, result_size, offset);
 	}
 	
 	db_result = db_query(g_DBHandle, query_str);

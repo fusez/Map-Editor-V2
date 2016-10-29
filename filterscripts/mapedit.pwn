@@ -177,6 +177,13 @@ public OnPlayerConnect(playerid) {
 	return 1;
 }
 
+public OnPlayerSpawn(playerid) {
+	for(new index; index < MAX_ATTACHED_INDEX; index ++) {
+		ApplyPlayerAttachedData(playerid, index);
+	}
+	return 1;
+}
+
 public OnPlayerStateChange(playerid, newstate, oldstate) {
 	if(g_PlayerData[playerid][PLAYER_DATA_CAM_SPAWN] && newstate == PLAYER_STATE_ONFOOT) {
 		SetPlayerPos(playerid, g_PlayerData[playerid][PLAYER_DATA_CAM_X], g_PlayerData[playerid][PLAYER_DATA_CAM_Y], g_PlayerData[playerid][PLAYER_DATA_CAM_Z]);
@@ -218,6 +225,11 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 	}
 	return 1;
+}
+
+public OnActorStreamIn(actorid, forplayerid) {
+	ApplyActorAnimationData(actorid);
+    return 1;
 }
 
 public OnVehicleRespray(playerid, vehicleid, color1, color2) {
@@ -580,7 +592,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 
 			switch(listitem) {
-				case LISTITEM_OINDEX_RESET: {
+				case LISTITEM_OINDEX_REMOVE: {
 					DefaultObjectMaterialIndexData(objectid, g_PlayerData[playerid][PLAYER_DATA_EDIT_INDEX]);
 
 					new new_objectid = DuplicateObject(objectid);
@@ -608,7 +620,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						return ShowDialog(playerid, DIALOGID_COLOR_ALPHA), 1;
 					}
 				}
-				case LISTITEM_OINDEX_RESETCOLOR: {
+				case LISTITEM_OINDEX_REMOVECOLOR: {
 					new materialindex = g_PlayerData[playerid][PLAYER_DATA_EDIT_INDEX];
 					if(GetObjectMaterialIndexType(objectid, materialindex) != MATERIALINDEX_TYPE_TEXT) {
 						SetObjectColor(objectid, materialindex, 0x0);
@@ -671,7 +683,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						return ShowDialog(playerid, DIALOGID_COLOR_ALPHA), 1;
 					}
 				}
-				case LISTITEM_OINDEX_RESETFONTCOLOR: {
+				case LISTITEM_OINDEX_REMOVEFONTCOLOR: {
 					new materialindex = g_PlayerData[playerid][PLAYER_DATA_EDIT_INDEX];
 					if(GetObjectMaterialIndexType(objectid, materialindex) == MATERIALINDEX_TYPE_TEXT) {
 					    SetObjectFontColor(objectid, materialindex, 0xFFFFFFFF);
@@ -685,7 +697,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						return ShowBrowser(playerid, BROWSERID_OBJECT_COLORS), 1;
 					}
 				}
-				case LISTITEM_OINDEX_RESETBACKCOLOR: {
+				case LISTITEM_OINDEX_REMOVEBACKCOLOR: {
 					new materialindex = g_PlayerData[playerid][PLAYER_DATA_EDIT_INDEX];
 					if(GetObjectMaterialIndexType(objectid, materialindex) == MATERIALINDEX_TYPE_TEXT) {
 					    SetObjectColor(objectid, materialindex, 0x0);
@@ -947,7 +959,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SetVehicleZAngle(vehicleid, a);
 					return 1;
 	   			}
-				case LISTITEM_VEHICLE_RESETMODS: {
+				case LISTITEM_VEHICLE_REMOVEMODS: {
 					new components_removed;
 					for(new slot; slot < MAX_COMPONENT_SLOTS; slot ++) {
 						new componentid = GetVehicleComponentInSlot(vehicleid, slot);
@@ -1323,7 +1335,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case LISTITEM_ACTOR_ANIM_TIME: {
 					return ShowDialog(playerid, DIALOGID_ACTOR_ANIM_TIME), 1;
 				}
-				case LISTITEM_ACTOR_ANIM_RESET: {
+				case LISTITEM_ACTOR_ANIM_UPDATE: {
+					ApplyActorAnimationData(actorid);
+				}
+				case LISTITEM_ACTOR_ANIM_REMOVE: {
 					DefaultActorAnimationData(actorid);
 					ClearActorAnimations(actorid);
 				}

@@ -387,6 +387,7 @@ mparse_LoadMap(mapname[], playerid = INVALID_PLAYER_ID) {
 
             TogglePlayerAttached(playerid, index, true);
             SetPlayerAttachedModel(playerid, index, modelid);
+            SetPlayerAttachedBone(playerid, index, bone);
             SetPlayerAttachedOffset(playerid, index, x, y, z);
             SetPlayerAttachedRot(playerid, index, rx, ry, rz);
             SetPlayerAttachedScale(playerid, index, sx, sy, sz);

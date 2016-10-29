@@ -176,7 +176,7 @@ ShowDialog(playerid, dialogid) {
 
 			for(new listitem; listitem < MAX_LISTITEMS_OINDEX; listitem ++) {
 				switch(listitem) {
-					case LISTITEM_OINDEX_RESET: {
+					case LISTITEM_OINDEX_REMOVE: {
 					    strcat(info_full, "Reset Material Index\t \n");
 					}
 					case LISTITEM_OINDEX_TEXTURE: {
@@ -209,7 +209,7 @@ ShowDialog(playerid, dialogid) {
 							}
 						}
 					}
-					case LISTITEM_OINDEX_RESETCOLOR: {
+					case LISTITEM_OINDEX_REMOVECOLOR: {
 					    strcat(info_full, "Reset Color\t \n");
 					}
 					case LISTITEM_OINDEX_TEXT: {
@@ -276,7 +276,7 @@ ShowDialog(playerid, dialogid) {
 							strcat(info_full, "Text Color Alpha\t \n");
 					    }
      				}
-					case LISTITEM_OINDEX_RESETFONTCOLOR: {
+					case LISTITEM_OINDEX_REMOVEFONTCOLOR: {
 						strcat(info_full, "Reset Text Color\t \n");
 					}
 					case LISTITEM_OINDEX_BACKCOLOR: {
@@ -287,7 +287,7 @@ ShowDialog(playerid, dialogid) {
 							strcat(info_full, "Text Background Color\t \n");
 						}
 					}
-					case LISTITEM_OINDEX_RESETBACKCOLOR: {
+					case LISTITEM_OINDEX_REMOVEBACKCOLOR: {
 						strcat(info_full, "Reset Text Background Color\t \n");
      				}
 					default: {
@@ -472,7 +472,7 @@ ShowDialog(playerid, dialogid) {
 						    strcat(info_full, info_part);
 						}
 					}
-					case LISTITEM_VEHICLE_RESETMODS: {
+					case LISTITEM_VEHICLE_REMOVEMODS: {
 						strcat(info_full, "Remove Modifications\t \n");
 					}
 					default: {
@@ -736,20 +736,20 @@ ShowDialog(playerid, dialogid) {
 						strcat(info_full, info_part);
 					}
 					case LISTITEM_ACTOR_ANIM_INDEX: {
-						new animindex = GetActorAnimIndex(actorid);
-						if(animindex == INVALID_ANIM_INDEX) {
-					    	strcat(info_full, "Animation Index\t \n");
+						new anim_index = GetActorAnimIndex(actorid);
+						if(anim_index == INVALID_ANIM_INDEX) {
+					    	strcat(info_full, "Animation\tnone\n");
 						} else {
 							new lib[MAX_ANIM_LIB], name[MAX_ANIM_NAME];
-							GetAnimationName(animindex, lib, MAX_ANIM_LIB, name, MAX_ANIM_NAME);
+							GetAnimationName(anim_index, lib, MAX_ANIM_LIB, name, MAX_ANIM_NAME);
 
-							format(info_part, sizeof info_part, "Animation Index\t%s %s\n", lib, name);
+							format(info_part, sizeof info_part, "Animation\t%i %s %s\n", anim_index, lib, name);
 							strcat(info_full, info_part);
 						}
 					}
 					case LISTITEM_ACTOR_ANIM_DELTA: {
 					    if(GetActorAnimIndex(actorid) == INVALID_ANIM_INDEX) {
-							strcat(info_full, "Animation Delta\t \n");
+							strcat(info_full, "Animation Delta\tnone\n");
 						} else {
 							format(info_part, sizeof info_part, "Animation Delta\t%f\n", GetActorAnimDelta(actorid));
 							strcat(info_full, info_part);
@@ -757,7 +757,7 @@ ShowDialog(playerid, dialogid) {
 					}
 					case LISTITEM_ACTOR_ANIM_LOOP: {
 					    if(GetActorAnimIndex(actorid) == INVALID_ANIM_INDEX) {
-							strcat(info_full, "Animation Loop\t \n");
+							strcat(info_full, "Animation Loop\tnone\n");
 						} else if(IsActorAnimLoop(actorid)) {
 							strcat(info_full, "Animation Loop\ttrue\n");
 						} else {
@@ -766,7 +766,7 @@ ShowDialog(playerid, dialogid) {
 					}
 					case LISTITEM_ACTOR_ANIM_LOCKX: {
 					    if(GetActorAnimIndex(actorid) == INVALID_ANIM_INDEX) {
-							strcat(info_full, "Animation Lock X\t \n");
+							strcat(info_full, "Animation Lock X\tnone\n");
 						} else if(IsActorAnimLockX(actorid)) {
 							strcat(info_full, "Animation Lock X\ttrue\n");
 						} else {
@@ -775,7 +775,7 @@ ShowDialog(playerid, dialogid) {
 					}
 					case LISTITEM_ACTOR_ANIM_LOCKY: {
 					    if(GetActorAnimIndex(actorid) == INVALID_ANIM_INDEX) {
-							strcat(info_full, "Animation Lock Y\t \n");
+							strcat(info_full, "Animation Lock Y\tnone\n");
 						} else if(IsActorAnimLockY(actorid)) {
 							strcat(info_full, "Animation Lock Y\ttrue\n");
 						} else {
@@ -784,7 +784,7 @@ ShowDialog(playerid, dialogid) {
 					}
 					case LISTITEM_ACTOR_ANIM_FREEZE: {
 					    if(GetActorAnimIndex(actorid) == INVALID_ANIM_INDEX) {
-							strcat(info_full, "Animation Freeze\t \n");
+							strcat(info_full, "Animation Freeze\tnone\n");
 						} else if(IsActorAnimFreeze(actorid)) {
 							strcat(info_full, "Animation Freeze\ttrue\n");
 						} else {
@@ -793,14 +793,17 @@ ShowDialog(playerid, dialogid) {
 					}
 					case LISTITEM_ACTOR_ANIM_TIME: {
 					    if(GetActorAnimIndex(actorid) == INVALID_ANIM_INDEX) {
-							strcat(info_full, "Animation Time\t \n");
+							strcat(info_full, "Animation Time\tnone\n");
 						} else {
 						    format(info_part, sizeof info_part, "Animation Time\t%i\n", GetActorAnimTime(actorid));
 							strcat(info_full, info_part);
 						}
 					}
-					case LISTITEM_ACTOR_ANIM_RESET: {
-						strcat(info_full, "Reset Actor Animation\t \n");
+					case LISTITEM_ACTOR_ANIM_UPDATE: {
+						strcat(info_full, "Update Animation\t \n");
+					}
+					case LISTITEM_ACTOR_ANIM_REMOVE: {
+						strcat(info_full, "Remove Animation\t \n");
 					}
 					default: {
 						strcat(info_full, " \t \n");

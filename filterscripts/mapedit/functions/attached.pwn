@@ -10,6 +10,10 @@ DefaultPlayerAttachedData(playerid, index) {
 }
 
 ApplyPlayerAttachedData(playerid, index) {
+	if(!IsPlayerAttachedToggled(playerid, index)) {
+		return RemovePlayerAttachedObject(playerid, index), 1;
+	}
+
 	new modelid, bone, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, Float:sx, Float:sy, Float:sz, c1, c2;
 
 	modelid = GetPlayerAttachedModel(playerid, index);
@@ -21,4 +25,5 @@ ApplyPlayerAttachedData(playerid, index) {
 	c2 = GetPlayerAttachedColor2(playerid, index);
 
 	SetPlayerAttachedObject(playerid, index, modelid, bone, x, y, z, rx, ry, rz, sx, sy, sz, c1, c2);
+	return 1;
 }

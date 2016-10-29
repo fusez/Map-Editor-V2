@@ -1,7 +1,7 @@
 GetFontName(fontid, name[], name_size) {
 	new query_str[100], DBResult:db_result, is_found;
 
-	format(query_str, sizeof query_str, "SELECT `name` FROM `fonts` WHERE `id` = '%i' LIMIT 1", fontid);
+	format(query_str, sizeof query_str, "SELECT `name` FROM `fonts` WHERE `rowid` = '%i' LIMIT 1", fontid);
 
 	db_result = db_query(g_DBHandle, query_str);
 
@@ -20,9 +20,9 @@ FindFonts(result[], result_size, search[], offset) {
 	new query_str[300], DBResult:db_result, fonts_found;
 
 	if(isempty(search)) {
-	    format(query_str, sizeof query_str, "SELECT `id` FROM `fonts` LIMIT %i OFFSET %i", result_size, offset);
+	    format(query_str, sizeof query_str, "SELECT `rowid` FROM `fonts` LIMIT %i OFFSET %i", result_size, offset);
 	} else {
-		format(query_str, sizeof query_str, "SELECT `id` FROM `fonts` WHERE `id` LIKE '%%%q%%' OR `name` LIKE '%%%q%%' LIMIT %i OFFSET %i", search, search, result_size, offset);
+		format(query_str, sizeof query_str, "SELECT `rowid` FROM `fonts` WHERE `rowid` LIKE '%%%q%%' OR `name` LIKE '%%%q%%' LIMIT %i OFFSET %i", search, search, result_size, offset);
 	}
 
 	db_result = db_query(g_DBHandle, query_str);
