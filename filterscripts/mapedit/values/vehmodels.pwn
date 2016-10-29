@@ -1,0 +1,11 @@
+#define MIN_VEHMODEL_ID \
+	400
+	
+#define MAX_VEHMODEL_ID \
+	611
+	
+#define MAX_VEHMODEL_NAME \
+	18
+	
+#define INVALID_VEHMODEL_ID \
+	0

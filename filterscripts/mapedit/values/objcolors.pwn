@@ -1,0 +1,5 @@
+#define INVALID_OBJCOLOR_ID \
+	0
+
+#define MAX_OBJCOLOR_NAME \
+	23

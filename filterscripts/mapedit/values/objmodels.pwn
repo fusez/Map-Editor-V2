@@ -1,0 +1,5 @@
+#define INVALID_OBJMODEL_ID \
+	0
+
+#define MAX_OBJMODEL_NAME \
+	20
